@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../widgets/emoji_button.dart';
+
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,32 @@ class Home extends StatelessWidget {
             Flexible(
               flex: 1,
               child: Container(
-                color: Colors.white
+                width: double.infinity,
+                padding: const EdgeInsets.all(10.0),
+                color: Colors.white,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    EmojiButton(
+                      height: 50.0,
+                      emoji: '😰',
+                      text: 'Anxious',
+                      onPressed: () {},
+                    ),
+                    EmojiButton(
+                      height: 50.0,
+                      emoji: '😫',
+                      text: 'Stressed',
+                      onPressed: () {},
+                    ),
+                    EmojiButton(
+                      height: 50.0,
+                      emoji: '😞',
+                      text: 'Depressed',
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
