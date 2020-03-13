@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../widgets/emoji_button.dart';
+import '../screens/triage_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -70,7 +71,9 @@ class HomeScreen extends StatelessWidget {
                       height: 50.0,
                       emoji: '😰',
                       text: 'Anxious',
-                      onPressed: () {},
+                      onPressed: () => Navigator.of(context).pushNamed(
+                        TriageScreen.routeName,
+                      ),
                     ),
                     EmojiButton(
                       height: 50.0,
