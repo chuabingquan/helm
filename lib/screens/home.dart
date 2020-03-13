@@ -58,7 +58,10 @@ class Home extends StatelessWidget {
               flex: 1,
               child: Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10.0,
+                  vertical: 2.0,
+                ),
                 color: Colors.white,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
