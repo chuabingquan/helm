@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import './constants.dart' as Constants;
-import './screens/home.dart';
+import './screens/home_screen.dart';
+import './screens/triage_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,7 +22,16 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: Home(),
+      home: Container(
+        color: Colors.white,
+        child: SafeArea(
+          child: HomeScreen(),
+          top: false,
+        ),
+      ),
+      routes: {
+        TriageScreen.routeName: (ctx) => TriageScreen(),
+      },
     );
   }
 }
