@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/knob_slider.dart';
 import '../widgets/action_panel.dart';
+import '../screens/challenge_screen.dart';
 
 class TriageScreen extends StatefulWidget {
   static const routeName = '/triage';
@@ -28,7 +29,7 @@ class _TriageScreenState extends State<TriageScreen> {
         Flexible(
           child: Text(
             question,
-            style: TextStyle(
+            style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20.0,
               letterSpacing: 1.2,
@@ -57,8 +58,6 @@ class _TriageScreenState extends State<TriageScreen> {
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        centerTitle: false,
-        title: Text('Triage'),
       ),
       body: Stack(
         children: <Widget>[
@@ -66,7 +65,7 @@ class _TriageScreenState extends State<TriageScreen> {
             width: double.infinity,
             padding: const EdgeInsets.symmetric(
               vertical: 20.0,
-              horizontal: 22.0,
+              horizontal: 20.0,
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -132,7 +131,9 @@ class _TriageScreenState extends State<TriageScreen> {
             alignment: Alignment.bottomCenter,
             child: ActionPanel(
               title: 'Next',
-              onPressed: () {},
+              onPressed: () => Navigator.of(context).pushNamed(
+                ChallengeScreen.routeName,
+              ),
             ),
           ),
         ],

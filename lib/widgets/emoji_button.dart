@@ -2,14 +2,18 @@ import 'package:flutter/material.dart';
 
 class EmojiButton extends StatelessWidget {
   final String emoji;
-  final String text;
+  final String title;
+  final String subtitle;
   final double height;
+  final bool enableSubtitle;
   final Function onPressed;
 
   EmojiButton({
     @required this.emoji,
-    @required this.text,
+    @required this.title,
+    this.subtitle = '',
     this.height = 55.0,
+    this.enableSubtitle = false,
     @required this.onPressed,
   });
 
@@ -39,12 +43,30 @@ class EmojiButton extends StatelessWidget {
             SizedBox(
               width: 20.0,
             ),
-            Text(
-              text,
-              style: const TextStyle(
-                fontSize: 16.0,
-              ),
-            ),
+            enableSubtitle
+                ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      Text(
+                        subtitle,
+                        style: const TextStyle(
+                          fontSize: 12.0,
+                        ),
+                      )
+                    ],
+                  )
+                : Text(
+                    title,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
           ],
         ),
         onPressed: onPressed,

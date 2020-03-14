@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                     EmojiButton(
                       height: 50.0,
                       emoji: '😰',
-                      text: 'Anxious',
+                      title: 'Anxious',
                       onPressed: () => Navigator.of(context).pushNamed(
                         TriageScreen.routeName,
                       ),
@@ -78,13 +78,13 @@ class HomeScreen extends StatelessWidget {
                     EmojiButton(
                       height: 50.0,
                       emoji: '😫',
-                      text: 'Stressed',
+                      title: 'Stressed',
                       onPressed: () {},
                     ),
                     EmojiButton(
                       height: 50.0,
                       emoji: '😞',
-                      text: 'Depressed',
+                      title: 'Depressed',
                       onPressed: () {},
                     ),
                   ],
