@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/knob_slider.dart';
 import '../widgets/action_panel.dart';
+import '../widgets/custom_safe_area.dart';
 import '../screens/challenge_screen.dart';
 
 class TriageScreen extends StatefulWidget {
@@ -50,93 +51,95 @@ class _TriageScreenState extends State<TriageScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: theme.primaryColor,
-        elevation: 0.0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-      ),
-      body: Stack(
-        children: <Widget>[
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.symmetric(
-              vertical: 20.0,
-              horizontal: 20.0,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Flexible(
-                  child: _buildSliderQuestion(
-                    question: 'How stressed are you?',
-                    min: 1,
-                    max: 10,
-                    initialValue: 1,
-                    onChanged: (value) {
-                      if (_selectedIdealLevel > value) {
-                        showDialog(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                            title: Text('Oops!'),
-                            content: Text(
-                                'Your ideal stress level cannot be more than your actual stress level.'),
-                            actions: <Widget>[
-                              FlatButton(
-                                textColor: theme.accentColor,
-                                child: Text(
-                                  'Okay',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                onPressed: () => Navigator.of(context).pop(),
-                              )
-                            ],
-                          ),
-                        );
-                        return false;
-                      } else {
-                        setState(() {
-                          _selectedStressLevel = value;
-                        });
-                        return true;
-                      }
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 40.0,
-                ),
-                Flexible(
-                  child: _buildSliderQuestion(
-                      question: 'Pick an ideal stress level',
-                      min: 0,
-                      max: _selectedStressLevel,
-                      initialValue: 0,
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedIdealLevel = value;
-                        });
-                        return true;
-                      }),
-                ),
-              ],
-            ),
+    return CustomSafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: theme.primaryColor,
+          elevation: 0.0,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).pop(),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: ActionPanel(
-              title: 'Next',
-              onPressed: () => Navigator.of(context).pushNamed(
-                ChallengeScreen.routeName,
+        ),
+        body: Stack(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                vertical: 20.0,
+                horizontal: 20.0,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Flexible(
+                    child: _buildSliderQuestion(
+                      question: 'How stressed are you?',
+                      min: 1,
+                      max: 10,
+                      initialValue: 1,
+                      onChanged: (value) {
+                        if (_selectedIdealLevel > value) {
+                          showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text('Oops!'),
+                              content: Text(
+                                  'Your ideal stress level cannot be more than your actual stress level.'),
+                              actions: <Widget>[
+                                FlatButton(
+                                  textColor: theme.accentColor,
+                                  child: Text(
+                                    'Okay',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                )
+                              ],
+                            ),
+                          );
+                          return false;
+                        } else {
+                          setState(() {
+                            _selectedStressLevel = value;
+                          });
+                          return true;
+                        }
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  Flexible(
+                    child: _buildSliderQuestion(
+                        question: 'Pick an ideal stress level',
+                        min: 0,
+                        max: _selectedStressLevel,
+                        initialValue: 0,
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedIdealLevel = value;
+                          });
+                          return true;
+                        }),
+                  ),
+                ],
               ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: ActionPanel(
+                title: 'Next',
+                onPressed: () => Navigator.of(context).pushNamed(
+                  ChallengeScreen.routeName,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

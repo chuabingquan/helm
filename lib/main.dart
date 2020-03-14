@@ -27,13 +27,7 @@ class App extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: Container(
-        color: Colors.white,
-        child: SafeArea(
-          child: HomeScreen(),
-          top: false,
-        ),
-      ),
+      home: HomeScreen(),
       routes: {
         TriageScreen.routeName: (ctx) => TriageScreen(),
         ChallengeScreen.routeName: (ctx) => ChallengeScreen(),
