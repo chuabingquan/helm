@@ -65,7 +65,7 @@ class _KnobSliderState extends State<KnobSlider> {
               max: widget.max.toDouble(),
               value: _sliderValue,
               divisions: widget.max,
-              label: _sliderValue.ceil().toString(),
+              label: _sliderValue.floor().toString(),
               onChanged: (value) {
                 if (widget.onChanged(value.toInt())) {
                   setState(() {
