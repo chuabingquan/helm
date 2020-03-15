@@ -5,6 +5,8 @@ import '../widgets/custom_safe_area.dart';
 import '../widgets/action_panel.dart';
 import '../widgets/emoji_button.dart';
 import './check_back_screen.dart';
+import '../models/activity.dart';
+import '../models/reward.dart';
 
 class ScheduleScreen extends StatefulWidget {
   static const routeName = '/schedule';
@@ -14,10 +16,33 @@ class ScheduleScreen extends StatefulWidget {
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
+  var _isInit = true;
+  ProblemDetails _problem;
+  int _actualLevel;
+  int _idealLevel;
+  Set<Activity> _selectedActivities = {};
+  Reward _selectedReward;
+
   TimeOfDay _scheduledTime = TimeOfDay(
     hour: TimeOfDay.now().hour + 1,
     minute: TimeOfDay.now().minute,
   );
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      final params =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      _problem = params['problem'] as ProblemDetails;
+      _actualLevel = params['actualLevel'] as int;
+      _idealLevel = params['idealLevel'] as int;
+      _selectedActivities = params['activities'] as Set<Activity>;
+      _selectedReward = params['reward'] as Reward;
+
+      _isInit = false;
+    }
+  }
 
   String _formatTimeOfDay(TimeOfDay time) {
     final today = DateTime.now();
@@ -91,7 +116,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                         ),
                         Flexible(
                           child: Text(
-                            'Set a time today to spend your stress credits by and check back in with us! We’ll help to re-evaluate your stress levels again.',
+                            'Set a time today to spend your ${_problem.noun} credits by and check back in with us! We’ll help to re-evaluate your ${_problem.noun} levels again.',
                             style: const TextStyle(
                               fontSize: 14,
                               height: 1.2,
@@ -142,6 +167,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                                 ),
                                 initialTime: _scheduledTime,
                               );
+
+                              if (selectedTime == null) return;
+
                               if (selectedTime.hour < TimeOfDay.now().hour ||
                                   (selectedTime.hour == TimeOfDay.now().hour &&
                                       selectedTime.minute <=
@@ -206,9 +234,32 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               child: ActionPanel(
                 title: 'Start Challenge',
                 onPressed: () {
-                  Navigator.of(context).pushNamed(
-                    CheckBackScreen.routeName,
-                  );
+                  final timeNow = TimeOfDay.now();
+                  final isValid = !(_scheduledTime.hour < timeNow.hour ||
+                      (_scheduledTime.hour == timeNow.hour &&
+                          _scheduledTime.minute <= timeNow.minute));
+                  if (isValid) {
+                    Navigator.of(context).pushNamed(
+                      CheckBackScreen.routeName,
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      child: AlertDialog(
+                        title: Text('Oops!'),
+                        content: Text(
+                          'It appears that you\'ve picked a time that is over, please pick another time to check back in with us.',
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Okay'),
+                            textColor: theme.accentColor,
+                            onPressed: () => Navigator.of(context).pop(),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
                 },
               ),
             ),

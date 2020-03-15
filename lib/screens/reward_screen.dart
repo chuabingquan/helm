@@ -167,6 +167,13 @@ class _RewardScreenState extends State<RewardScreen> {
                     if (_selectedReward != null) {
                       Navigator.of(context).pushNamed(
                         ScheduleScreen.routeName,
+                        arguments: <String, dynamic>{
+                          'problem': _problem,
+                          'actualLevel': _actualLevel,
+                          'idealLevel': _idealLevel,
+                          'activities': _selectedActivities,
+                          'reward': _selectedReward,
+                        },
                       );
                     } else {
                       showDialog(
