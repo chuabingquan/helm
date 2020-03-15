@@ -11,6 +11,7 @@ import './screens/reward_screen.dart';
 import './screens/schedule_screen.dart';
 import './screens/check_back_screen.dart';
 import './providers/activities.dart';
+import './providers/rewards.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,9 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (_) => Activities(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => Rewards(),
         ),
       ],
       child: MaterialApp(

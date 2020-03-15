@@ -273,23 +273,30 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                   if (isValid) {
                     Navigator.of(context).pushNamed(
                       RewardScreen.routeName,
+                      arguments: <String, dynamic>{
+                        'problem': _problem,
+                        'actualLevel': _actualLevel,
+                        'idealLevel': _idealLevel,
+                        'activities': _selectedActivities,
+                      },
                     );
                   } else {
                     showDialog(
-                        context: context,
-                        child: AlertDialog(
-                          title: Text('Oops!'),
-                          content: Text(
-                            'It appears that you have not utilised all your ${_problem.noun} credits yet.',
-                          ),
-                          actions: <Widget>[
-                            FlatButton(
-                              child: Text('Okay'),
-                              textColor: theme.accentColor,
-                              onPressed: () => Navigator.of(context).pop(),
-                            )
-                          ],
-                        ));
+                      context: context,
+                      child: AlertDialog(
+                        title: Text('Oops!'),
+                        content: Text(
+                          'It appears that you have not utilised all your ${_problem.noun} credits yet.',
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Okay'),
+                            textColor: theme.accentColor,
+                            onPressed: () => Navigator.of(context).pop(),
+                          )
+                        ],
+                      ),
+                    );
                   }
                 },
               ),

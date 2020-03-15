@@ -7,6 +7,7 @@ import '../screens/triage_screen.dart';
 import '../widgets/custom_safe_area.dart';
 import '../models/activity.dart';
 import '../providers/activities.dart';
+import '../providers/rewards.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -22,7 +23,10 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_isInit) {
       Provider.of<Activities>(context, listen: false)
           .fetchAndSetActivities()
-          .then((_) {})
+          .then((_) {
+            return Provider.of<Rewards>(context, listen: false)
+                .fetchAndSetRewards();
+          })
           .catchError((err) => showDialog(
                 context: context,
                 child: AlertDialog(
@@ -42,8 +46,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ))
           .whenComplete(() {
-        _isInit = false;
-      });
+            _isInit = false;
+          });
     }
   }
 
