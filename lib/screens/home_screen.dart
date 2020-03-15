@@ -1,11 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/emoji_button.dart';
 import '../screens/triage_screen.dart';
 import '../widgets/custom_safe_area.dart';
+import '../models/activity.dart';
+import '../providers/activities.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  var _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      Provider.of<Activities>(context, listen: false)
+          .fetchAndSetActivities()
+          .then((_) {})
+          .catchError((err) => showDialog(
+                context: context,
+                child: AlertDialog(
+                  title: Text('Oops!'),
+                  content: Text(
+                    'An unexpected error occurred when initialising data.',
+                  ),
+                  actions: <Widget>[
+                    FlatButton(
+                      textColor: Theme.of(context).accentColor,
+                      child: Text(
+                        'Okay',
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              ))
+          .whenComplete(() {
+        _isInit = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomSafeArea(
@@ -77,19 +118,26 @@ class HomeScreen extends StatelessWidget {
                         title: 'Anxious',
                         onPressed: () => Navigator.of(context).pushNamed(
                           TriageScreen.routeName,
+                          arguments: Problem.Anxiety,
                         ),
                       ),
                       EmojiButton(
                         height: 50.0,
                         emoji: '😫',
                         title: 'Stressed',
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          TriageScreen.routeName,
+                          arguments: Problem.Stress,
+                        ),
                       ),
                       EmojiButton(
                         height: 50.0,
                         emoji: '😞',
                         title: 'Depressed',
-                        onPressed: () {},
+                        onPressed: () => Navigator.of(context).pushNamed(
+                          TriageScreen.routeName,
+                          arguments: Problem.Depression,
+                        ),
                       ),
                     ],
                   ),

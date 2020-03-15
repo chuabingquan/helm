@@ -1,17 +1,55 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/action_panel.dart';
 import '../widgets/emoji_button.dart';
 import '../widgets/custom_safe_area.dart';
 import './reward_screen.dart';
+import '../models/activity.dart';
+import '../providers/activities.dart';
 
-class ChallengeScreen extends StatelessWidget {
+class ChallengeScreen extends StatefulWidget {
   static const routeName = '/challenge';
+
+  @override
+  _ChallengeScreenState createState() => _ChallengeScreenState();
+}
+
+class _ChallengeScreenState extends State<ChallengeScreen> {
+  var _isInit = true;
+  ProblemDetails _problem;
+  int _actualLevel;
+  int _idealLevel;
+  Set<Activity> _selectedActivities = {};
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      final params =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      _problem = params['problem'] as ProblemDetails;
+      _actualLevel = params['actualLevel'] as int;
+      _idealLevel = params['idealLevel'] as int;
+
+      _isInit = false;
+    }
+  }
+
+  // Use only for non-empty strings.
+  String _capitaliseFirstChar(String value) {
+    return value[0].toUpperCase() + value.substring(1);
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final equationProblemWord = _capitaliseFirstChar(_problem.noun);
+    final activities = Provider.of<Activities>(context, listen: false)
+        .activities
+        .where((a) => a.aids.contains(_problem.type))
+        .toList();
 
     return CustomSafeArea(
       child: Scaffold(
@@ -57,7 +95,7 @@ class ChallengeScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            'Your extra stress is converted into credits.',
+                            'Your extra ${_problem.noun} is converted into credits.',
                             style: const TextStyle(
                               fontSize: 14,
                               height: 1.2,
@@ -78,7 +116,7 @@ class ChallengeScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                             child: Text(
-                              'Current Stress - Ideal Stress \n= Stress Credits',
+                              'Current $equationProblemWord - Ideal $equationProblemWord \n= $equationProblemWord Credits',
                               textAlign: TextAlign.center,
                               style: GoogleFonts.robotoMono().copyWith(
                                 fontSize: 13.0,
@@ -91,7 +129,7 @@ class ChallengeScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            'Your objective is to spend all of it to bring your current stress level down to an ideal level before the day ends.',
+                            'Your objective is to spend all of it to bring your current ${_problem.noun} level down to an ideal level before the day ends.',
                             style: const TextStyle(
                               fontSize: 14.0,
                               height: 1.2,
@@ -125,7 +163,7 @@ class ChallengeScreen extends StatelessWidget {
                               Flexible(
                                 child: FittedBox(
                                   child: Text(
-                                    '3 Stress Credits',
+                                    '${_actualLevel - _idealLevel} $equationProblemWord Credits',
                                     style: const TextStyle(
                                       fontSize: 14.0,
                                     ),
@@ -139,20 +177,81 @@ class ChallengeScreen extends StatelessWidget {
                           ),
                           Flexible(
                             child: ListView.builder(
-                              itemCount: 50,
-                              itemBuilder: (ctx, index) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0,
-                                ),
-                                child: EmojiButton(
-                                  emoji: '🏃',
-                                  title: 'Go for a 1/2 hour jog',
-                                  enableSubtitle: true,
-                                  subtitle: '2 Stress Credits',
-                                  onPressed: () {},
-                                ),
-                              ),
-                            ),
+                                itemCount: activities.length,
+                                itemBuilder: (ctx, index) {
+                                  final activity = activities[index];
+                                  final isSelected = _selectedActivities
+                                          .where((a) => a.id == activity.id)
+                                          .length >
+                                      0;
+
+                                  return Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 4.0,
+                                    ),
+                                    child: EmojiButton(
+                                        emoji: activity.emoji,
+                                        title: activity.name,
+                                        enableSubtitle: true,
+                                        backgroundColor: isSelected
+                                            ? Colors.greenAccent.shade100
+                                            : null,
+                                        outlineColor: isSelected
+                                            ? Colors.greenAccent.shade200
+                                            : null,
+                                        subtitle:
+                                            '${activity.credits} $equationProblemWord Credits',
+                                        onPressed: () {
+                                          if (isSelected) {
+                                            setState(() {
+                                              _selectedActivities.removeWhere(
+                                                (a) => a.id == activity.id,
+                                              );
+                                            });
+                                          } else {
+                                            var selectedCredits = 0;
+
+                                            if (_selectedActivities
+                                                .isNotEmpty) {
+                                              selectedCredits =
+                                                  _selectedActivities.fold(
+                                                0,
+                                                (acc, a) => acc + a.credits,
+                                              );
+                                            }
+
+                                            if ((selectedCredits +
+                                                    activity.credits) <=
+                                                (_actualLevel - _idealLevel)) {
+                                              setState(() {
+                                                _selectedActivities
+                                                    .add(activity);
+                                              });
+                                            } else {
+                                              showDialog(
+                                                context: context,
+                                                child: AlertDialog(
+                                                  title: Text('Oops!'),
+                                                  content: Text(
+                                                    'You do not have sufficient ${_problem.noun} credits left.',
+                                                  ),
+                                                  actions: <Widget>[
+                                                    FlatButton(
+                                                      textColor:
+                                                          theme.accentColor,
+                                                      child: Text('Okay'),
+                                                      onPressed: () =>
+                                                          Navigator.of(context)
+                                                              .pop(),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }
+                                          }
+                                        }),
+                                  );
+                                }),
                           ),
                         ],
                       ),
@@ -165,9 +264,34 @@ class ChallengeScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: ActionPanel(
                 title: 'Next',
-                onPressed: () => Navigator.of(context).pushNamed(
-                  RewardScreen.routeName,
-                ),
+                onPressed: () {
+                  var isValid = !(_selectedActivities.isEmpty ||
+                      _selectedActivities.fold(
+                              0, (acc, a) => acc + a.credits) !=
+                          _actualLevel - _idealLevel);
+
+                  if (isValid) {
+                    Navigator.of(context).pushNamed(
+                      RewardScreen.routeName,
+                    );
+                  } else {
+                    showDialog(
+                        context: context,
+                        child: AlertDialog(
+                          title: Text('Oops!'),
+                          content: Text(
+                            'It appears that you have not utilised all your ${_problem.noun} credits yet.',
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Okay'),
+                              textColor: theme.accentColor,
+                              onPressed: () => Navigator.of(context).pop(),
+                            )
+                          ],
+                        ));
+                  }
+                },
               ),
             ),
           ],

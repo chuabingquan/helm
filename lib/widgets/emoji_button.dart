@@ -64,6 +64,9 @@ class EmojiButton extends StatelessWidget {
                             fontSize: 16.0,
                           ),
                         ),
+                        SizedBox(
+                          height: 2,
+                        ),
                         Text(
                           subtitle,
                           style: const TextStyle(

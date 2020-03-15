@@ -4,6 +4,7 @@ import '../widgets/knob_slider.dart';
 import '../widgets/action_panel.dart';
 import '../widgets/custom_safe_area.dart';
 import '../screens/challenge_screen.dart';
+import '../models/activity.dart';
 
 class TriageScreen extends StatefulWidget {
   static const routeName = '/triage';
@@ -13,8 +14,20 @@ class TriageScreen extends StatefulWidget {
 }
 
 class _TriageScreenState extends State<TriageScreen> {
-  var _selectedStressLevel = 1;
+  var _selectedActualLevel = 1;
   var _selectedIdealLevel = 0;
+  ProblemDetails _problem;
+  var _isInit = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isInit) {
+      final problemType = ModalRoute.of(context).settings.arguments as Problem;
+      _problem = getProblemDetails(problemType);
+      _isInit = false;
+    }
+  }
 
   Widget _buildSliderQuestion({
     @required String question,
@@ -74,7 +87,7 @@ class _TriageScreenState extends State<TriageScreen> {
                 children: <Widget>[
                   Flexible(
                     child: _buildSliderQuestion(
-                      question: 'How stressed are you?',
+                      question: 'How ${_problem.adjective} are you?',
                       min: 1,
                       max: 10,
                       initialValue: 1,
@@ -85,7 +98,7 @@ class _TriageScreenState extends State<TriageScreen> {
                             builder: (ctx) => AlertDialog(
                               title: Text('Oops!'),
                               content: Text(
-                                  'Your ideal stress level cannot be more than your actual stress level.'),
+                                  'Your ideal ${_problem.noun} level cannot be more than your actual ${_problem.noun} level.'),
                               actions: <Widget>[
                                 FlatButton(
                                   textColor: theme.accentColor,
@@ -103,7 +116,7 @@ class _TriageScreenState extends State<TriageScreen> {
                           return false;
                         } else {
                           setState(() {
-                            _selectedStressLevel = value;
+                            _selectedActualLevel = value;
                           });
                           return true;
                         }
@@ -115,9 +128,9 @@ class _TriageScreenState extends State<TriageScreen> {
                   ),
                   Flexible(
                     child: _buildSliderQuestion(
-                        question: 'Pick an ideal stress level',
+                        question: 'Pick an ideal ${_problem.noun} level',
                         min: 0,
-                        max: _selectedStressLevel,
+                        max: _selectedActualLevel,
                         initialValue: 0,
                         onChanged: (value) {
                           setState(() {
@@ -135,6 +148,11 @@ class _TriageScreenState extends State<TriageScreen> {
                 title: 'Next',
                 onPressed: () => Navigator.of(context).pushNamed(
                   ChallengeScreen.routeName,
+                  arguments: <String, dynamic>{
+                    'problem': _problem,
+                    'actualLevel': _selectedActualLevel,
+                    'idealLevel': _selectedIdealLevel,
+                  },
                 ),
               ),
             ),
