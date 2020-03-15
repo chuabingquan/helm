@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/action_panel.dart';
-import '../widgets/emoji_button.dart';
 import '../widgets/custom_safe_area.dart';
-import './reward_screen.dart';
+import '../widgets/emoji_button.dart';
 
-class ChallengeScreen extends StatelessWidget {
-  static const routeName = '/challenge';
+class RewardScreen extends StatelessWidget {
+  static const routeName = '/reward';
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +20,6 @@ class ChallengeScreen extends StatelessWidget {
             icon: Icon(Icons.arrow_back),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          centerTitle: false,
-          // title: Text('Challenge'),
         ),
         body: Stack(
           children: <Widget>[
@@ -43,7 +39,7 @@ class ChallengeScreen extends StatelessWidget {
                         Flexible(
                           child: FittedBox(
                             child: Text(
-                              'The Challenge',
+                              'Reward',
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20.0,
@@ -57,43 +53,9 @@ class ChallengeScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            'Your extra stress is converted into credits.',
+                            'We encourage you to pick a reward to award yourself with after you’ve spent your stress credits. This would reinforce the positive habit of dealing with stress in an actionable manner.',
                             style: const TextStyle(
                               fontSize: 14,
-                              height: 1.2,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 14.0,
-                        ),
-                        Flexible(
-                          child: Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 12.0,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.grey.shade200,
-                              borderRadius: BorderRadius.circular(5.0),
-                            ),
-                            child: Text(
-                              'Current Stress - Ideal Stress \n= Stress Credits',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.robotoMono().copyWith(
-                                fontSize: 13.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 14.0,
-                        ),
-                        Flexible(
-                          child: Text(
-                            'Your objective is to spend all of it to bring your current stress level down to an ideal level before the day ends.',
-                            style: const TextStyle(
-                              fontSize: 14.0,
                               height: 1.2,
                             ),
                           ),
@@ -108,26 +70,16 @@ class ChallengeScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Flexible(
+                                fit: FlexFit.loose,
                                 child: FittedBox(
                                   child: Text(
-                                    'Spend Credits On',
+                                    'Pick a Reward',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.1,
                                       fontSize: 16.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                child: FittedBox(
-                                  child: Text(
-                                    '3 Stress Credits',
-                                    style: const TextStyle(
-                                      fontSize: 14.0,
                                     ),
                                   ),
                                 ),
@@ -165,9 +117,7 @@ class ChallengeScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: ActionPanel(
                 title: 'Next',
-                onPressed: () => Navigator.of(context).pushNamed(
-                  RewardScreen.routeName,
-                ),
+                onPressed: () {},
               ),
             ),
           ],
