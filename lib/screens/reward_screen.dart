@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../widgets/action_panel.dart';
 import '../widgets/custom_safe_area.dart';
 import '../widgets/emoji_button.dart';
+import '../screens/schedule_screen.dart';
 
 class RewardScreen extends StatelessWidget {
   static const routeName = '/reward';
@@ -117,7 +118,9 @@ class RewardScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: ActionPanel(
                 title: 'Next',
-                onPressed: () {},
+                onPressed: () => Navigator.of(context).pushNamed(
+                  ScheduleScreen.routeName,
+                ),
               ),
             ),
           ],
