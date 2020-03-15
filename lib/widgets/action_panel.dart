@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 class ActionPanel extends StatelessWidget {
   final String title;
   final Function onPressed;
+  final Color panelColor;
+  final bool enableDivider;
 
   ActionPanel({
     @required this.title,
     @required this.onPressed,
+    this.panelColor = Colors.white,
+    this.enableDivider = true,
   });
 
   @override
@@ -19,14 +23,16 @@ class ActionPanel extends StatelessWidget {
         horizontal: 20.0,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            blurRadius: 3.0,
-            offset: Offset(0.0, -4.0),
-            color: Colors.grey.shade100,
-          ),
-        ],
+        color: panelColor,
+        boxShadow: enableDivider
+            ? <BoxShadow>[
+                BoxShadow(
+                  blurRadius: 3.0,
+                  offset: Offset(0.0, -4.0),
+                  color: Colors.grey.shade100,
+                ),
+              ]
+            : null,
       ),
       width: double.infinity,
       child: ButtonTheme(
@@ -34,7 +40,7 @@ class ActionPanel extends StatelessWidget {
         child: FlatButton(
           onPressed: onPressed,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(4.0),
+            borderRadius: BorderRadius.circular(5.5),
           ),
           color: theme.accentColor,
           textColor: Colors.white,

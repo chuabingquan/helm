@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import '../widgets/custom_safe_area.dart';
 import '../widgets/action_panel.dart';
 import '../widgets/emoji_button.dart';
+import './check_back_screen.dart';
 
 class ScheduleScreen extends StatefulWidget {
   static const routeName = '/schedule';
@@ -204,7 +205,11 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               alignment: Alignment.bottomCenter,
               child: ActionPanel(
                 title: 'Start Challenge',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(
+                    CheckBackScreen.routeName,
+                  );
+                },
               ),
             ),
           ],

@@ -8,6 +8,7 @@ import './screens/triage_screen.dart';
 import './screens/challenge_screen.dart';
 import './screens/reward_screen.dart';
 import './screens/schedule_screen.dart';
+import './screens/check_back_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ class App extends StatelessWidget {
         ChallengeScreen.routeName: (ctx) => ChallengeScreen(),
         RewardScreen.routeName: (ctx) => RewardScreen(),
         ScheduleScreen.routeName: (ctx) => ScheduleScreen(),
+        CheckBackScreen.routeName: (ctx) => CheckBackScreen(),
       },
     );
   }
