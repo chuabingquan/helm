@@ -122,16 +122,37 @@ class _TriageScreenState extends State<TriageScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: ActionPanel(
-                title: 'Next',
-                onPressed: () => Navigator.of(context).pushNamed(
-                  ChallengeScreen.routeName,
-                  arguments: <String, dynamic>{
-                    'problem': _problem,
-                    'actualLevel': _selectedActualLevel,
-                    'idealLevel': _selectedIdealLevel,
-                  },
-                ),
-              ),
+                  title: 'Next',
+                  onPressed: () {
+                    if (_selectedIdealLevel >= _selectedActualLevel) {
+                      showDialog(
+                        barrierDismissible: false,
+                        context: context,
+                        builder: (ctx) => AlertDialog(
+                          title: Text('Oops!'),
+                          content: Text(
+                            'Please pick an ideal ${_problem.noun} level that is realistically lower than your actual ${_problem.noun} level.',
+                          ),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Okay'),
+                              textColor: theme.accentColor,
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        ),
+                      );
+                    } else {
+                      Navigator.of(context).pushNamed(
+                        ChallengeScreen.routeName,
+                        arguments: <String, dynamic>{
+                          'problem': _problem,
+                          'actualLevel': _selectedActualLevel,
+                          'idealLevel': _selectedIdealLevel,
+                        },
+                      );
+                    }
+                  }),
             ),
           ],
         ),
