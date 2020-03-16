@@ -14,8 +14,15 @@ class CheckBackScreen extends StatelessWidget {
     @required this.challenge,
   });
 
+  // Use only for non-empty strings.
+  String _capitaliseFirstChar(String value) {
+    return value[0].toUpperCase() + value.substring(1);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final creditsProblemWord = _capitaliseFirstChar(challenge.problem.noun);
+
     return CustomSafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -73,7 +80,7 @@ class CheckBackScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            'Spend ${challenge.initialLevel - challenge.idealLevel} stress credits on',
+                            'Spend ${challenge.initialLevel - challenge.idealLevel} ${challenge.problem.noun} credits on',
                             style: const TextStyle(
                               fontSize: 14,
                               height: 1.2,
@@ -99,7 +106,8 @@ class CheckBackScreen extends StatelessWidget {
                                 emoji: activity.emoji,
                                 title: activity.name,
                                 enableSubtitle: true,
-                                subtitle: '${activity.credits} Stress Credits',
+                                subtitle:
+                                    '${activity.credits} $creditsProblemWord Credits',
                                 backgroundColor: Colors.white,
                                 outlineColor: Colors.white,
                                 onPressed: () {},

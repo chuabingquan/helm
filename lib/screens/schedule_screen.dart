@@ -257,6 +257,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       activities: _selectedActivities,
                       reward: _selectedReward,
                       remindAt: reminderDateTime,
+                      problem: _problem,
                     );
 
                     Provider.of<Challenges>(context, listen: false)

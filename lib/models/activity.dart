@@ -27,6 +27,19 @@ ProblemDetails getProblemDetails(Problem type) {
   }
 }
 
+ProblemDetails getProblemDetailsByNoun(String noun) {
+  switch (noun) {
+    case 'anxiety':
+      return getProblemDetails(Problem.Anxiety);
+    case 'stress':
+      return getProblemDetails(Problem.Stress);
+    case 'depression':
+      return getProblemDetails(Problem.Depression);
+    default:
+      throw Exception('Problem noun is not recognised.');
+  }
+}
+
 class Activity {
   final int id;
   final String name;
