@@ -80,6 +80,8 @@ class Challenges with ChangeNotifier {
 
         await batch.commit();
       });
+      await fetchAndSetLatestChallenge();
+      notifyListeners();
     } catch (err) {
       throw err;
     }

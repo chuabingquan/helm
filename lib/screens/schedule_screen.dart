@@ -261,11 +261,12 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
                     Provider.of<Challenges>(context, listen: false)
                         .create(newChallenge)
-                        .then(
-                          (_) => Navigator.of(context)
-                              .pushNamed(CheckBackScreen.routeName),
-                        )
-                        .catchError((err) {
+                        .then((_) {
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/',
+                        (route) => false,
+                      );
+                    }).catchError((err) {
                       print(err);
                       showDialog(
                         context: context,
