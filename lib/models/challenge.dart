@@ -10,15 +10,35 @@ class Challenge {
   final int updatedLevel;
   final Set<Activity> activities;
   final Reward reward;
-  final DateTime createdOn;
+  final DateTime remindAt;
 
   Challenge({
-    @required this.id,
+    this.id,
     @required this.initialLevel,
     @required this.idealLevel,
     this.updatedLevel,
     @required this.activities,
     @required this.reward,
-    @required this.createdOn,
+    @required this.remindAt,
   });
+
+  Map<String, dynamic> toMap() => {
+        'initial_level': initialLevel,
+        'ideal_level': idealLevel,
+        'updated_level': updatedLevel,
+        'reward_id': reward.id,
+        'remind_at': remindAt.millisecondsSinceEpoch,
+      };
+
+  factory Challenge.fromMap(Map<String, dynamic> map) => Challenge(
+        id: map['id'] as int,
+        initialLevel: map['initial_level'] as int,
+        idealLevel: map['ideal_level'] as int,
+        updatedLevel: map['updated_level'],
+        activities:
+            (map['activities'] as List).map((a) => Activity.fromMap(a)).toSet(),
+        reward: Reward.fromMap(map['reward']),
+        remindAt:
+            DateTime.fromMillisecondsSinceEpoch(map['remind_at']),
+      );
 }

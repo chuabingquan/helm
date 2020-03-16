@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/custom_safe_area.dart';
 import '../widgets/action_panel.dart';
@@ -7,6 +8,8 @@ import '../widgets/emoji_button.dart';
 import './check_back_screen.dart';
 import '../models/activity.dart';
 import '../models/reward.dart';
+import '../models/challenge.dart';
+import '../providers/challenges.dart';
 
 class ScheduleScreen extends StatefulWidget {
   static const routeName = '/schedule';
@@ -239,9 +242,46 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                       (_scheduledTime.hour == timeNow.hour &&
                           _scheduledTime.minute <= timeNow.minute));
                   if (isValid) {
-                    Navigator.of(context).pushNamed(
-                      CheckBackScreen.routeName,
+                    final dateTimeNow = DateTime.now();
+                    final reminderDateTime = DateTime(
+                      dateTimeNow.year,
+                      dateTimeNow.month,
+                      dateTimeNow.day,
+                      _scheduledTime.hour,
+                      _scheduledTime.minute,
                     );
+
+                    final newChallenge = Challenge(
+                      initialLevel: _actualLevel,
+                      idealLevel: _idealLevel,
+                      activities: _selectedActivities,
+                      reward: _selectedReward,
+                      remindAt: reminderDateTime,
+                    );
+
+                    Provider.of<Challenges>(context, listen: false)
+                        .create(newChallenge)
+                        .then(
+                          (_) => Navigator.of(context)
+                              .pushNamed(CheckBackScreen.routeName),
+                        )
+                        .catchError((err) {
+                      print(err);
+                      showDialog(
+                        context: context,
+                        child: AlertDialog(
+                          title: Text('Oops!'),
+                          content: Text('An unexpected error occurred!'),
+                          actions: <Widget>[
+                            FlatButton(
+                              child: Text('Okay'),
+                              textColor: theme.accentColor,
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        ),
+                      );
+                    });
                   } else {
                     showDialog(
                       context: context,

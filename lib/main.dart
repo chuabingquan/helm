@@ -13,6 +13,7 @@ import './screens/schedule_screen.dart';
 import './screens/check_back_screen.dart';
 import './providers/activities.dart';
 import './providers/rewards.dart';
+import './providers/challenges.dart';
 import './database/database.dart';
 import './widgets/loading_screen.dart';
 
@@ -59,28 +60,40 @@ class _AppState extends State<App> {
               ChangeNotifierProvider(
                 create: (_) => Rewards(_database),
               ),
-            ],
-            child: MaterialApp(
-              title: 'Mood',
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                primaryColor: Constants.PRIMARY_COLOR,
-                accentColor: Constants.ACCENT_COLOR,
-                textTheme: GoogleFonts.karlaTextTheme(
-                  Theme.of(context).textTheme,
-                ),
+              ChangeNotifierProvider(
+                create: (_) => Challenges(_database),
               ),
-              home: HomeScreen(),
-              routes: {
-                TriageScreen.routeName: (ctx) => TriageScreen(),
-                ChallengeScreen.routeName: (ctx) => ChallengeScreen(),
-                RewardScreen.routeName: (ctx) => RewardScreen(),
-                ScheduleScreen.routeName: (ctx) => ScheduleScreen(),
-                CheckBackScreen.routeName: (ctx) => CheckBackScreen(),
+            ],
+            child: Consumer<Challenges>(
+              builder: (context, challenges, _) {
+                return MaterialApp(
+                  title: 'Mood',
+                  debugShowCheckedModeBanner: false,
+                  theme: ThemeData(
+                    primaryColor: Constants.PRIMARY_COLOR,
+                    accentColor: Constants.ACCENT_COLOR,
+                    textTheme: GoogleFonts.karlaTextTheme(
+                      Theme.of(context).textTheme,
+                    ),
+                  ),
+                  home: challenges.latestChallenge == null
+                      ? HomeScreen()
+                      : CheckBackScreen(
+                          challenge: challenges.latestChallenge,
+                        ),
+                  routes: {
+                    TriageScreen.routeName: (ctx) => TriageScreen(),
+                    ChallengeScreen.routeName: (ctx) => ChallengeScreen(),
+                    RewardScreen.routeName: (ctx) => RewardScreen(),
+                    ScheduleScreen.routeName: (ctx) => ScheduleScreen(),
+                    // CheckBackScreen.routeName: (ctx) => CheckBackScreen(),
+                  },
+                );
               },
             ),
           )
         : MaterialApp(
+            debugShowCheckedModeBanner: false,
             home: Container(
               color: Constants.PRIMARY_COLOR,
               child: LoadingScreen(),

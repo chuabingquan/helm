@@ -4,9 +4,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../widgets/emoji_button.dart';
 import '../widgets/custom_safe_area.dart';
 import '../widgets/action_panel.dart';
+import '../models/challenge.dart';
 
 class CheckBackScreen extends StatelessWidget {
   static const routeName = '/check-back';
+  final Challenge challenge;
+
+  CheckBackScreen({
+    @required this.challenge,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +73,7 @@ class CheckBackScreen extends StatelessWidget {
                         ),
                         Flexible(
                           child: Text(
-                            'Spend 3 stress credits on',
+                            'Spend ${challenge.initialLevel - challenge.idealLevel} stress credits on',
                             style: const TextStyle(
                               fontSize: 14,
                               height: 1.2,
@@ -81,21 +87,25 @@ class CheckBackScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: ListView.builder(
-                          itemCount: 3,
-                          itemBuilder: (ctx, index) => Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 4.0,
-                                ),
-                                child: EmojiButton(
-                                  emoji: '🏃',
-                                  title: 'Read a book for 1/2 hour',
-                                  enableSubtitle: true,
-                                  subtitle: '2 Stress Credits',
-                                  backgroundColor: Colors.white,
-                                  outlineColor: Colors.white,
-                                  onPressed: () {},
-                                ),
-                              )),
+                          itemCount: challenge.activities.length,
+                          itemBuilder: (ctx, index) {
+                            final activity =
+                                challenge.activities.toList()[index];
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 4.0,
+                              ),
+                              child: EmojiButton(
+                                emoji: activity.emoji,
+                                title: activity.name,
+                                enableSubtitle: true,
+                                subtitle: '${activity.credits} Stress Credits',
+                                backgroundColor: Colors.white,
+                                outlineColor: Colors.white,
+                                onPressed: () {},
+                              ),
+                            );
+                          }),
                     ),
                   ],
                 ),
