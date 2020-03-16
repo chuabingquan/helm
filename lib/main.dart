@@ -11,6 +11,7 @@ import './screens/challenge_screen.dart';
 import './screens/reward_screen.dart';
 import './screens/schedule_screen.dart';
 import './screens/check_back_screen.dart';
+import './screens/review_screen.dart';
 import './providers/activities.dart';
 import './providers/rewards.dart';
 import './providers/challenges.dart';
@@ -86,7 +87,7 @@ class _AppState extends State<App> {
                     ChallengeScreen.routeName: (ctx) => ChallengeScreen(),
                     RewardScreen.routeName: (ctx) => RewardScreen(),
                     ScheduleScreen.routeName: (ctx) => ScheduleScreen(),
-                    // CheckBackScreen.routeName: (ctx) => CheckBackScreen(),
+                    ReviewScreen.routeName: (ctx) => ReviewScreen(),
                   },
                 );
               },

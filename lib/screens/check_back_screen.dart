@@ -5,6 +5,7 @@ import '../widgets/emoji_button.dart';
 import '../widgets/custom_safe_area.dart';
 import '../widgets/action_panel.dart';
 import '../models/challenge.dart';
+import './review_screen.dart';
 
 class CheckBackScreen extends StatelessWidget {
   static const routeName = '/check-back';
@@ -21,6 +22,7 @@ class CheckBackScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final creditsProblemWord = _capitaliseFirstChar(challenge.problem.noun);
 
     return CustomSafeArea(
@@ -123,7 +125,30 @@ class CheckBackScreen extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: ActionPanel(
                 title: 'I\'m Done!',
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    child: AlertDialog(
+                      title: Text('Great Job ${challenge.reward.emoji}'),
+                      content: Text(
+                        'Reward yourself now with a/an ${challenge.reward.name} for the hard work you\'ve put in!',
+                      ),
+                      actions: <Widget>[
+                        FlatButton(
+                            child: Text('Okay'),
+                            textColor: theme.accentColor,
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pushNamed(
+                                ReviewScreen.routeName,
+                                arguments: challenge,
+                              );
+                            }),
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
           ],

@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../widgets/custom_safe_area.dart';
 import '../widgets/action_panel.dart';
 import '../widgets/emoji_button.dart';
-import './check_back_screen.dart';
 import '../models/activity.dart';
 import '../models/reward.dart';
 import '../models/challenge.dart';

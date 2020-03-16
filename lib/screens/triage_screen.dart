@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/knob_slider.dart';
+import '../widgets/slider_question.dart';
 import '../widgets/action_panel.dart';
 import '../widgets/custom_safe_area.dart';
 import '../screens/challenge_screen.dart';
@@ -29,37 +29,6 @@ class _TriageScreenState extends State<TriageScreen> {
     }
   }
 
-  Widget _buildSliderQuestion({
-    @required String question,
-    @required int min,
-    @required int max,
-    @required int initialValue,
-    @required bool Function(int) onChanged,
-  }) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Flexible(
-          child: Text(
-            question,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0,
-              letterSpacing: 1.2,
-            ),
-          ),
-        ),
-        KnobSlider(
-          min: min,
-          initialValue: initialValue,
-          max: max,
-          onChanged: onChanged,
-        ),
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -86,7 +55,7 @@ class _TriageScreenState extends State<TriageScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Flexible(
-                    child: _buildSliderQuestion(
+                    child: SliderQuestion(
                       question: 'How ${_problem.adjective} are you?',
                       min: 1,
                       max: 10,
@@ -127,7 +96,7 @@ class _TriageScreenState extends State<TriageScreen> {
                     height: 40.0,
                   ),
                   Flexible(
-                    child: _buildSliderQuestion(
+                    child: SliderQuestion(
                         question: 'Pick an ideal ${_problem.noun} level',
                         min: 0,
                         max: _selectedActualLevel,
