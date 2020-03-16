@@ -1,8 +1,11 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import './constants.dart' as Constants;
 import './screens/home_screen.dart';
@@ -18,11 +21,34 @@ import './providers/challenges.dart';
 import './database/database.dart';
 import './widgets/loading_screen.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+NotificationAppLaunchDetails notificationAppLaunchDetails;
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) => runApp(App()));
+
+  try {
+    // Enforce portrait orientation.
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+    // Setup local notifications.
+    notificationAppLaunchDetails =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+    final initializationSettingsAndroid =
+        AndroidInitializationSettings('app_icon');
+    final initializationSettingsIOS = IOSInitializationSettings();
+    final initializationSettings = InitializationSettings(
+        initializationSettingsAndroid, initializationSettingsIOS);
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+    );
+
+    runApp(App());
+  } catch (err) {
+    throw err;
+  }
 }
 
 class App extends StatefulWidget {
@@ -86,7 +112,8 @@ class _AppState extends State<App> {
                     TriageScreen.routeName: (ctx) => TriageScreen(),
                     ChallengeScreen.routeName: (ctx) => ChallengeScreen(),
                     RewardScreen.routeName: (ctx) => RewardScreen(),
-                    ScheduleScreen.routeName: (ctx) => ScheduleScreen(),
+                    ScheduleScreen.routeName: (ctx) =>
+                        ScheduleScreen(_scheduleNotification),
                     ReviewScreen.routeName: (ctx) => ReviewScreen(),
                   },
                 );
@@ -101,4 +128,24 @@ class _AppState extends State<App> {
             ),
           );
   }
+}
+
+Future<void> _scheduleNotification(
+    DateTime scheduledDateTime, String title, String description) async {
+  final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    'mood_id',
+    'mood',
+    'Remind people to check in after spending their credits',
+  );
+  final iOSPlatformChannelSpecifics =
+      IOSNotificationDetails(sound: 'slow_spring_board.aiff');
+  final platformChannelSpecifics = NotificationDetails(
+      androidPlatformChannelSpecifics, iOSPlatformChannelSpecifics);
+  await flutterLocalNotificationsPlugin.schedule(
+    0,
+    title,
+    description,
+    scheduledDateTime,
+    platformChannelSpecifics,
+  );
 }

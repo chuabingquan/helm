@@ -12,6 +12,9 @@ import '../providers/challenges.dart';
 
 class ScheduleScreen extends StatefulWidget {
   static const routeName = '/schedule';
+  final Future<void> Function(DateTime, String, String) scheduleNotification;
+
+  ScheduleScreen(this.scheduleNotification);
 
   @override
   _ScheduleScreenState createState() => _ScheduleScreenState();
@@ -262,6 +265,9 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     Provider.of<Challenges>(context, listen: false)
                         .create(newChallenge)
                         .then((_) {
+                      return widget.scheduleNotification(
+                          reminderDateTime, 'Check In', 'Let\'s re-evaluate your ${_problem.noun} levels again!');
+                    }).then((_) {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                         '/',
                         (route) => false,
