@@ -17,6 +17,7 @@ class Rewards with ChangeNotifier {
     try {
       final results = await _database.query('rewards');
       _rewards = results.map((r) => Reward.fromMap(r)).toList();
+      notifyListeners();
     } catch (err) {
       print(err);
       throw err;

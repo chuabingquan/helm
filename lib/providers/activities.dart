@@ -17,6 +17,7 @@ class Activities with ChangeNotifier {
     try {
       final results = await _database.query('activities');
       _activities = results.map((a) => Activity.fromMap(a)).toList();
+      notifyListeners();
     } catch (err) {
       throw err;
     }
