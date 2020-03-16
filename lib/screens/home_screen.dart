@@ -122,7 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: 'Anxious',
                         onPressed: () => Navigator.of(context).pushNamed(
                           TriageScreen.routeName,
-                          arguments: Problem.Anxiety,
+                          arguments: <String, dynamic>{
+                            'problem': Problem.Anxiety
+                          },
                         ),
                       ),
                       EmojiButton(
@@ -131,7 +133,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: 'Stressed',
                         onPressed: () => Navigator.of(context).pushNamed(
                           TriageScreen.routeName,
-                          arguments: Problem.Stress,
+                          arguments: <String, dynamic>{
+                            'problem': Problem.Stress,
+                          },
                         ),
                       ),
                       EmojiButton(
@@ -140,7 +144,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: 'Depressed',
                         onPressed: () => Navigator.of(context).pushNamed(
                           TriageScreen.routeName,
-                          arguments: Problem.Depression,
+                          arguments: <String, dynamic>{
+                            'problem': Problem.Depression,
+                          }
                         ),
                       ),
                     ],

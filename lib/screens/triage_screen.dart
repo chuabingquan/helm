@@ -16,6 +16,7 @@ class TriageScreen extends StatefulWidget {
 class _TriageScreenState extends State<TriageScreen> {
   var _selectedActualLevel = 1;
   var _selectedIdealLevel = 0;
+  var _initialLevel = 1;
   ProblemDetails _problem;
   var _isInit = true;
 
@@ -23,8 +24,12 @@ class _TriageScreenState extends State<TriageScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_isInit) {
-      final problemType = ModalRoute.of(context).settings.arguments as Problem;
-      _problem = getProblemDetails(problemType);
+      final params =
+          ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      _problem = getProblemDetails(params['problem'] as Problem);
+      if (params.containsKey('initialLevel')) {
+        _initialLevel = params['initialLevel'] as int;
+      }
       _isInit = false;
     }
   }
@@ -59,7 +64,7 @@ class _TriageScreenState extends State<TriageScreen> {
                       question: 'How ${_problem.adjective} are you?',
                       min: 1,
                       max: 10,
-                      initialValue: 1,
+                      initialValue: _initialLevel,
                       onChanged: (value) {
                         if (_selectedIdealLevel > value) {
                           showDialog(

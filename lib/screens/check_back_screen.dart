@@ -132,7 +132,7 @@ class CheckBackScreen extends StatelessWidget {
                     child: AlertDialog(
                       title: Text('Great Job ${challenge.reward.emoji}'),
                       content: Text(
-                        'Reward yourself now with a/an ${challenge.reward.name} for the hard work you\'ve put in!',
+                        'Reward yourself now with a/an ${challenge.reward.name.toLowerCase()} for the hard work you\'ve put in!',
                       ),
                       actions: <Widget>[
                         FlatButton(

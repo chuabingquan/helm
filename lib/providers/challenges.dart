@@ -25,7 +25,10 @@ class Challenges with ChangeNotifier {
         limit: 1,
       );
 
-      if (challengeResults.length < 1) return;
+      if (challengeResults.length < 1) {
+        _latestChallengeToday = null;
+        return;
+      }
 
       final challengeId = challengeResults[0]['id'] as int;
       final activityResults = await _database.query(
@@ -80,6 +83,21 @@ class Challenges with ChangeNotifier {
 
         await batch.commit();
       });
+      await fetchAndSetLatestChallenge();
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  Future<void> endChallenge(int challengeId, int updatedLevel) async {
+    try {
+      await _database.update(
+        'challenges',
+        {'updated_level': updatedLevel},
+        where: 'id=?',
+        whereArgs: [challengeId],
+      );
       await fetchAndSetLatestChallenge();
       notifyListeners();
     } catch (err) {

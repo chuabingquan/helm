@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/custom_safe_area.dart';
 import '../widgets/action_panel.dart';
 import '../widgets/knob_slider.dart';
 import '../models/challenge.dart';
+import '../providers/challenges.dart';
+import './triage_screen.dart';
 
 class ReviewScreen extends StatefulWidget {
   static const routeName = '/review';
@@ -109,74 +112,103 @@ class _ReviewScreenState extends State<ReviewScreen> {
               alignment: Alignment.bottomCenter,
               child: ActionPanel(
                 title: 'Next',
-                onPressed: () {
-                  var dialogMessage = '';
-                  var dialogActions = <Widget>[];
-                  final okayButton = FlatButton(
-                    child: Text('Okay'),
-                    textColor: theme.accentColor,
-                    onPressed: () =>
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/',
-                      (route) => false,
-                    ),
-                  );
-                  final tryAgainButton = FlatButton(
-                    child: Text('Try Again'),
-                    textColor: theme.accentColor,
-                    onPressed: () => Navigator.of(context).pop(),
-                  );
-                  final takeABreakButton = FlatButton(
-                    child: Text('Take a Break'),
-                    textColor: theme.accentColor,
-                    onPressed: () =>
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/',
-                      (route) => false,
-                    ),
-                  );
+                onPressed: () async {
+                  try {
+                    await Provider.of<Challenges>(context, listen: false)
+                        .endChallenge(_challenge.id, _updatedLevel);
 
-                  if (_updatedLevel < 1) {
-                    dialogMessage =
-                        'Congratulations on getting your ${_challenge.problem.noun} levels down to zero! You rock 🤘';
-                        dialogActions.add(okayButton);
-                  } else if (_updatedLevel < _challenge.idealLevel) {
-                    dialogMessage =
-                        'Your ${_challenge.problem.noun} level seems better than ideal, keep up the good work!';
-                        dialogActions.addAll([takeABreakButton, tryAgainButton]);
-                  } else if (_updatedLevel == _challenge.idealLevel) {
-                    dialogMessage =
-                        'Good job spending all your ${_challenge.problem.noun} credits, you\'re getting better!';
-                        dialogActions.addAll([takeABreakButton, tryAgainButton]);
-                  } else if (_updatedLevel > _challenge.idealLevel &&
-                      _updatedLevel < _challenge.initialLevel) {
-                    dialogMessage =
-                        'Don\'t give up, you made great effort spending your ${_challenge.problem.noun} credits!';
-                        dialogActions.addAll([takeABreakButton, tryAgainButton]);
-                  } else if (_updatedLevel < 7) {
-                    dialogMessage =
-                        'We take some steps forward, some steps backwards, but most importantly, we\'re progressing!';
-                        dialogActions.addAll([takeABreakButton, tryAgainButton]);
-                  } else {
-                    dialogMessage =
-                        'Progress takes time, you\'re putting in effort and that\'s all that matters! Do talk to someone if your ${_challenge.problem.noun} persists 💪';
-                        dialogActions.addAll([takeABreakButton, tryAgainButton]);
-                  }
-
-                  showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (ctx) => AlertDialog(
-                      title: Text('Review'),
-                      content: Text(
-                        dialogMessage,
-                        style: TextStyle(
-                          height: 1.3,
-                        ),
+                    var dialogMessage = '';
+                    var dialogActions = <Widget>[];
+                    final okayButton = FlatButton(
+                      child: Text('Okay'),
+                      textColor: theme.accentColor,
+                      onPressed: () =>
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/',
+                        (route) => false,
                       ),
-                      actions: dialogActions,
-                    ),
-                  );
+                    );
+                    final tryAgainButton = FlatButton(
+                      child: Text('Try Again'),
+                      textColor: theme.accentColor,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pushReplacementNamed(
+                          TriageScreen.routeName,
+                          arguments: <String, dynamic>{
+                            'problem': _challenge.problem.type,
+                            'initialLevel': _updatedLevel,
+                          },
+                        );
+                      },
+                    );
+                    final takeABreakButton = FlatButton(
+                      child: Text('Take a Break'),
+                      textColor: theme.accentColor,
+                      onPressed: () =>
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/',
+                        (route) => false,
+                      ),
+                    );
+
+                    if (_updatedLevel < 1) {
+                      dialogMessage =
+                          'Congratulations on getting your ${_challenge.problem.noun} levels down to zero! You rock 🤘';
+                      dialogActions.add(okayButton);
+                    } else if (_updatedLevel < _challenge.idealLevel) {
+                      dialogMessage =
+                          'Your ${_challenge.problem.noun} level seems better than ideal, keep up the good work!';
+                      dialogActions.addAll([takeABreakButton, tryAgainButton]);
+                    } else if (_updatedLevel == _challenge.idealLevel) {
+                      dialogMessage =
+                          'Good job spending all your ${_challenge.problem.noun} credits, you\'re getting better!';
+                      dialogActions.addAll([takeABreakButton, tryAgainButton]);
+                    } else if (_updatedLevel > _challenge.idealLevel &&
+                        _updatedLevel < _challenge.initialLevel) {
+                      dialogMessage =
+                          'Don\'t give up, you made great effort spending your ${_challenge.problem.noun} credits!';
+                      dialogActions.addAll([takeABreakButton, tryAgainButton]);
+                    } else if (_updatedLevel < 7) {
+                      dialogMessage =
+                          'We take some steps forward, some steps backwards, but most importantly, we\'re progressing!';
+                      dialogActions.addAll([takeABreakButton, tryAgainButton]);
+                    } else {
+                      dialogMessage =
+                          'Progress takes time, you\'re putting in effort and that\'s all that matters! Do talk to someone if your ${_challenge.problem.noun} persists 💪';
+                      dialogActions.addAll([takeABreakButton, tryAgainButton]);
+                    }
+
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (ctx) => AlertDialog(
+                        title: Text('Review'),
+                        content: Text(
+                          dialogMessage,
+                          style: TextStyle(
+                            height: 1.3,
+                          ),
+                        ),
+                        actions: dialogActions,
+                      ),
+                    );
+                  } catch (err) {
+                    showDialog(
+                      context: context,
+                      child: AlertDialog(
+                        title: Text('Oops!'),
+                        content: Text('An unexpected error occurred.'),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: Text('Okay'),
+                            textColor: theme.accentColor,
+                            onPressed: () => Navigator.of(context).pop(),
+                          )
+                        ],
+                      ),
+                    );
+                  }
                 },
               ),
             ),
