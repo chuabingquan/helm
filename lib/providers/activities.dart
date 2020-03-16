@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
+import 'package:sqflite/sqflite.dart';
 
-import '../services/activity_service.dart';
 import '../models/activity.dart';
 
 class Activities with ChangeNotifier {
-  final _activityService = ActivityService();
+  final Database _database;
   List<Activity> _activities = [];
+
+  Activities(this._database);
 
   List<Activity> get activities {
     return _activities.map((a) => a).toList();
@@ -13,7 +15,8 @@ class Activities with ChangeNotifier {
 
   Future<void> fetchAndSetActivities() async {
     try {
-      _activities = await _activityService.getAll();
+      final results = await _database.query('activities');
+      _activities = results.map((a) => Activity.fromMap(a)).toList();
     } catch (err) {
       throw err;
     }

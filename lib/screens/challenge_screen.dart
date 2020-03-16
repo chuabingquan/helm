@@ -46,10 +46,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final equationProblemWord = _capitaliseFirstChar(_problem.noun);
-    final activities = Provider.of<Activities>(context, listen: false)
-        .activities
-        .where((a) => a.aids.contains(_problem.type))
-        .toList();
+    final activities =
+        Provider.of<Activities>(context, listen: false).activities;
 
     return CustomSafeArea(
       child: Scaffold(

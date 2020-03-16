@@ -33,7 +33,6 @@ class Activity {
   final String description;
   final String emoji;
   final int credits;
-  final List<Problem> aids;
 
   Activity({
     @required this.id,
@@ -41,6 +40,21 @@ class Activity {
     @required this.description,
     @required this.emoji,
     @required this.credits,
-    @required this.aids,
   });
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'name': name,
+        'description': description,
+        'emoji': emoji,
+        'credits': credits,
+      };
+
+  factory Activity.fromMap(Map<String, dynamic> map) => Activity(
+        id: map['id'] as int,
+        name: map['name'] as String,
+        description: map['description'] as String,
+        emoji: map['emoji'] as String,
+        credits: map['credits'] as int,
+      );
 }
