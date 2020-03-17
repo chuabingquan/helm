@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -37,7 +35,7 @@ void main() async {
     notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
     final initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
     final initializationSettingsIOS = IOSInitializationSettings();
     final initializationSettings = InitializationSettings(
         initializationSettingsAndroid, initializationSettingsIOS);
@@ -94,7 +92,7 @@ class _AppState extends State<App> {
             child: Consumer<Challenges>(
               builder: (context, challenges, _) {
                 return MaterialApp(
-                  title: 'Mood',
+                  title: 'Helm',
                   debugShowCheckedModeBanner: false,
                   theme: ThemeData(
                     primaryColor: Constants.PRIMARY_COLOR,
@@ -133,8 +131,8 @@ class _AppState extends State<App> {
 Future<void> _scheduleNotification(
     DateTime scheduledDateTime, String title, String description) async {
   final androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    'mood_id',
-    'mood',
+    'helm_id',
+    'helm',
     'Remind people to check in after spending their credits',
   );
   final iOSPlatformChannelSpecifics =

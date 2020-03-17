@@ -1,4 +1,4 @@
-package com.stonks.mood.mood
+package com.stonks.helm
 
 import io.flutter.embedding.android.FlutterActivity
 
