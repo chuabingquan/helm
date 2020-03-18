@@ -141,10 +141,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         emoji: '😞',
                         title: 'Depressed',
                         onPressed: () => Navigator.of(context).pushNamed(
-                            TriageScreen.routeName,
-                            arguments: <String, dynamic>{
-                              'problem': Problem.Depression,
-                            }),
+                          TriageScreen.routeName,
+                          arguments: <String, dynamic>{
+                            'problem': Problem.Depression,
+                          },
+                        ),
                       ),
                     ],
                   ),
