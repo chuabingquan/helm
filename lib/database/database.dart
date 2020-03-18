@@ -13,37 +13,94 @@ final _defaultRewards = [
   ),
   Reward(
     id: 2,
+    name: 'Volunteer',
+    emoji: '🙋',
+  ),
+  Reward(
+    id: 3,
     name: 'Personal Praise',
     emoji: '🙌',
   ),
   Reward(
-    id: 3,
+    id: 4,
     name: 'Mobile Game',
     emoji: '🎮',
+  ),
+  Reward(
+    id: 5,
+    name: 'Buy something nice',
+    emoji: '🛒',
+  ),
+  Reward(
+    id: 6,
+    name: 'Nap',
+    emoji: '😴',
   ),
 ];
 
 final _defaultActivities = [
   Activity(
     id: 1,
-    name: 'Jogging',
-    description: 'Go for a 1/2 hour jog',
-    emoji: '🏃',
-    credits: 2,
-  ),
-  Activity(
-    id: 2,
-    name: 'Breathing',
+    name: 'Meditate',
     description: 'Do 10 sets of breathing exercises',
     emoji: '🧘',
     credits: 1,
   ),
   Activity(
+    id: 2,
+    name: 'Watch a TED Talk',
+    description: 'Keep yourself motivated!',
+    emoji: '📺',
+    credits: 1,
+  ),
+  Activity(
     id: 3,
-    name: 'Writing',
+    name: 'Jog',
+    description: 'Go for a 1/2 hour jog',
+    emoji: '🏃',
+    credits: 2,
+  ),
+  Activity(
+    id: 4,
+    name: 'Read',
+    description: 'Keep your mind focused on some other literature',
+    emoji: '📚',
+    credits: 2,
+  ),
+  Activity(
+    id: 5,
+    name: 'Stroll',
+    description: 'Take a short break and enjoy the scenery',
+    emoji: '🚶🏻‍♀️',
+    credits: 2,
+  ),
+  Activity(
+    id: 6,
+    name: 'Write',
     description: 'Vent your anxiety through writing',
     emoji: '📝',
     credits: 3,
+  ),
+  Activity(
+    id: 7,
+    name: 'Bake',
+    description: 'Bake a cake',
+    emoji: '🎂',
+    credits: 3,
+  ),
+  Activity(
+    id: 8,
+    name: 'Talk to a friend',
+    description: 'A listening ear helps!',
+    emoji: '🗣',
+    credits: 4,
+  ),
+  Activity(
+    id: 9,
+    name: 'Do someone a favour',
+    description: 'Helping others helps you to feel better',
+    emoji: '💪',
+    credits: 4,
   ),
 ];
 
