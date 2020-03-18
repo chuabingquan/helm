@@ -1,16 +1,18 @@
 # Helm
+Helm is an app that gamifies stress/anxiety/depression management in an actionable manner to provide relief.
 
-A new Flutter project.
+## Context
+As part of [NUS DSC's Hack For Good 2020](https://dsc.comp.nus.edu.sg/hackforgood2020), we developed Helm to address the problem statement of using technology to aid issues centered around stress/anxiety/depression.
 
-## Getting Started
+## How Does it Work?
+- Helm quantifies the difference in a user's actual and ideal stress/anxiety/depression level as credits to be spent on a prescribed set of activities before the day ends. By doing so, users inadvertently take actionable steps to deal with their condition.
 
-This project is a starting point for a Flutter application.
+- Users then decide on the activities to spend their credits on, the reward they get for completing them (to positively reinforce the habit of taking actionable steps to deal with their condition), and a time for Helm to notify them to check back in.
 
-A few resources to get you started if this is your first Flutter project:
+- When users check back in, Helm prompts them to reward themselves, then proceeds to re-evaluate their stress/anxiety/depression levels.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+- Should their stress/anxiety/depression levels be not up to mark, users get to re-attempt the challenge with their re-evaluated levels, restarting the whole process.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Credits
+- [Mary Heng](https://github.com/maryheng)
+- [Bing Quan](https://github.com/chuabingquan)
