@@ -13,6 +13,9 @@ As part of [NUS DSC's Hack For Good 2020](https://dsc.comp.nus.edu.sg/hackforgoo
 
 - Should their stress/anxiety/depression levels be not up to mark, users get to re-attempt the challenge with their re-evaluated levels, restarting the whole process.
 
+## Pitch Deck
+- [Helm's Pitch Deck on Google Slides](https://docs.google.com/presentation/d/1hH11FbyhlhNWxPFe0hKWraFyy2q5O0zYZZu8inYZYG8/edit?usp=sharing)
+
 ## Credits
 - [Mary Heng](https://github.com/maryheng)
 - [Bing Quan](https://github.com/chuabingquan)
