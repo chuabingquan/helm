@@ -89,13 +89,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: FittedBox(
                             child: Text(
                               'I\'m feeling . . .',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline5
-                                  .copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    letterSpacing: 1.2,
-                                  ),
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2,
+                                fontSize: 24.0,
+                              ),
                             ),
                           ),
                         ),
@@ -143,11 +141,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         emoji: '😞',
                         title: 'Depressed',
                         onPressed: () => Navigator.of(context).pushNamed(
-                          TriageScreen.routeName,
-                          arguments: <String, dynamic>{
-                            'problem': Problem.Depression,
-                          }
-                        ),
+                            TriageScreen.routeName,
+                            arguments: <String, dynamic>{
+                              'problem': Problem.Depression,
+                            }),
                       ),
                     ],
                   ),
