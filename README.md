@@ -1,6 +1,12 @@
 # Helm
 Helm is an app that gamifies stress/anxiety/depression management in an actionable manner to provide relief.
 
+To try it out, [setup flutter](https://flutter.dev/docs/get-started/install) on your machine and download the project source.
+```bash
+# Execute in project root directory.
+flutter run
+```
+
 ## Context
 As part of [NUS DSC's Hack For Good 2020](https://dsc.comp.nus.edu.sg/hackforgood2020), we developed Helm to address the problem statement of using technology to aid issues centered around stress/anxiety/depression. More info can be found in our [pitch deck](https://docs.google.com/presentation/d/1hH11FbyhlhNWxPFe0hKWraFyy2q5O0zYZZu8inYZYG8/edit?usp=sharing).
 
