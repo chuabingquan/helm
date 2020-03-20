@@ -1,9 +1,19 @@
 # Helm
 Helm is an app that gamifies stress/anxiety/depression management in an actionable manner to provide relief.
 
-To try it out, [setup flutter on your machine](https://flutter.dev/docs/get-started/install) and download the project source.
+To try it out, [setup flutter on your machine](https://flutter.dev/docs/get-started/install) and clone the project source.
 ```bash
-# Execute in project root directory.
+# Clone project
+git clone https://github.com/chuabingquan/helm.git
+
+# For iOS deployment
+cd helm/
+rm -rf ios android/
+flutter create .
+flutter pub run flutter_launcher_icons:main
+flutter run
+
+# For Android Deployment
 flutter run
 ```
 
