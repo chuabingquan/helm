@@ -14,6 +14,7 @@ flutter pub run flutter_launcher_icons:main
 flutter run
 
 # For Android Deployment
+cd helm/
 flutter run
 ```
 
